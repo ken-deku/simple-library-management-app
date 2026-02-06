@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Library Project</title>
+  </head>
+  <body>
+    <div class="main-container">
+      <!-- Header with title and add button -->
+      <div class="top-container">
+        <h1 class="top-title">
+          <i class="fa-solid fa-book-bookmark"></i>
+          My Library
+        </h1>
+        <button class="btn add-book-btn">
+          <i class="fa-solid fa-plus"></i>
+          Add Book
+        </button>
+      </div>
+      <div>
+        <!-- Book cards render here -->
+        <div class="library"></div>
+
+        <!-- Add book modal -->
+        <div class="modal hidden">
+          <div class="add-book-form card">
+            <div class="modal-header-row">
+              <h1 class="form-title">
+                <span class="fa-solid fa-plus"></span>
+                Add New Book
+              </h1>
+              <button class="close-modal-btn btn">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <form id="new-book-form">
+              <div class="form-group">
+                <label for="title">Title:</label>
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="Title of Book Here"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="author">Author:</label>
+                <input
+                  id="author"
+                  type="text"
+                  placeholder="Author Name Here"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="pages">Page Count:</label>
+                <input
+                  id="pages"
+                  type="number"
+                  placeholder="Number of Pages in Book"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <span>Status:</span>
+
+                <label class="radio-options">
+                  <input type="radio" name="book-status" value="Finished" />
+                  Finished
+                </label>
+
+                <label class="radio-options">
+                  <input
+                    type="radio"
+                    name="book-status"
+                    value="Currently Reading"
+                    required
+                  />
+                  Currently Reading
+                </label>
+
+                <label class="radio-options">
+                  <input type="radio" name="book-status" value="Will Read" />
+                  Will Read
+                </label>
+              </div>
+              <button type="submit" class="btn submit-modal-btn">
+                <i class="fa-solid fa-plus"></i>
+                Add to Library
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,229 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Color palette */
+:root {
+  --palette-light: #ffffff;
+  --palette-dark: #7683b6;
+  --palette-accent: #9fd3c7;
+  --palette-black: #000000;
+  --palette-lighter: #3c608d;
+  --palette-white: #ffffff;
+}
+
+body {
+  background-color: var(--palette-dark);
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* Header */
+.top-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--palette-light);
+  padding: 20px;
+  font-size: 36px;
+}
+
+/* Buttons */
+.add-book-btn,
+.btn,
+.submit-modal-btn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: #3c608d;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.2rem;
+  border: 1px solid var(--palette-accent);
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin: 5px;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.submit-modal-btn:hover {
+  background-color: #0c233f;
+}
+
+.add-book-btn:hover {
+  background-color: rgb(30, 115, 143);
+}
+
+.top-title {
+  margin-left: 16px;
+
+  color: rgb(24, 24, 24);
+}
+
+/* Book grid */
+.library {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: max-content;
+  margin: 20px;
+  gap: 30px;
+}
+
+.book-card h1,
+.book-card h2,
+.book-card p {
+  margin: 0;
+  padding: 0;
+}
+
+.book-card h1 {
+  font-size: 26px;
+  color: var(--palette-lighter);
+}
+
+.book-card h2 {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--palette-lighter);
+}
+
+.book-card p {
+  font-size: 18px;
+}
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition:
+    transform 0.2s ease,
+    opacity 0.3s ease;
+}
+
+/* Card styling */
+.card {
+  background-color: var(--palette-light);
+  border-radius: 10px;
+  padding: 16px;
+  border-left: 10px solid var(--palette-accent);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.596);
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.book-card:hover {
+  transform: scale(1.06);
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.733);
+}
+
+/* Modal overlay */
+.modal {
+  background: rgba(17, 17, 17, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  color: rgb(5, 11, 105);
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 16px;
+}
+
+.form-title {
+  color: rgb(4, 4, 56);
+  font-size: 26px;
+}
+
+.close-modal-btn {
+  background-color: rgb(13, 168, 130);
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+}
+.close-modal-btn:hover {
+  background-color: rgb(3, 77, 42);
+  color: white;
+}
+
+.add-book-form {
+  background-color: lightgray;
+  border-left: 10px solid var(--palette-accent);
+  position: relative;
+  padding-top: 20px;
+  padding-right: 20px;
+  width: 40%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.548);
+  border-radius: 10px;
+}
+
+.form-group {
+  background: var(--color-lighter);
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="email"] {
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--palette-accent);
+  width: 100%;
+  font-size: 16px;
+}
+
+.form-group label.radio-options {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.book-id {
+  font-size: 0.7rem;
+  color: #8a9eb8;
+  cursor: pointer;
+  font-family: monospace;
+  opacity: 0.65;
+  transition: all 0.2s ease;
+}
+
+.book-id:hover {
+  color: #3a64da;
+  text-decoration: underline;
+  opacity: 0.5;
+}
+
+.fade-out {
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
