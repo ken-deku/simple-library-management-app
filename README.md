@@ -38,7 +38,7 @@ This project strengthened my understanding of core JavaScript fundamentals inclu
 
 ---
 
-<img width="1162" height="626" alt="image" src="https://github.com/user-attachments/assets/24388282-ccea-42a0-accf-1c13d188a246" />
+<img width="900" height="500" alt="image" src="https://github.com/user-attachments/assets/24388282-ccea-42a0-accf-1c13d188a246" />
 
 ---
 
