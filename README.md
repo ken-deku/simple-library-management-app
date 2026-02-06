@@ -38,4 +38,4 @@ This project strengthened my understanding of core JavaScript fundamentals inclu
 
 ---
 
-**Live Demo:** [Add your deployment link]  
+**Live Demo:** [[Add your deployment link](https://ken-deku.github.io/simple-library-management-app/)]  
