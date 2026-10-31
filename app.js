@@ -1,168 +1,163 @@
-// DOM references handlers
-const addBookBtn = document.querySelector(".add-book-btn");
+const openModalBtn = document.querySelector(".add-book-btn");
 const modalForm = document.querySelector(".modal");
-const closeFormBtn = document.querySelector(".close-modal-btn");
-const submitModalBtn = document.querySelector(".submit-modal-btn");
-const form = document.querySelector("#new-book-form");
-const title = document.querySelector("#title");
-const author = document.querySelector("#author");
-const pages = document.querySelector("#pages");
-const cards = document.querySelector(".cards");
-const readBtn = document.querySelector(".read-btn");
-const libraryContainer = document.querySelector(".library");
+const closeModalBtn = document.querySelector(".close-modal-btn");
+const submitFormBtn = document.querySelector(".submit-modal-btn");
+const form = document.querySelector(".add-book-form form");
+const booksContainer = document.querySelector(".books-container");
+const bookHTML = document.querySelector(".book");
+const buttonsContainer = document.querySelector(".buttons-container");
 
-// Default Library storage with sample data
-const myLibrary = [
-  {
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
-    pages: 295,
-    readStatus: "Finished",
-    id: "c45d7876-4869-4b80-a607-1a78338d1905",
-  },
-  {
-    title: "1984",
-    author: "George Orwell",
-    pages: 328,
-    readStatus: "Currently Reading",
-    id: "a91e6d44-8c4a-4f91-bfc0-3a6c0cbdc812",
-  },
-  {
-    title: "Clean Code",
-    author: "Robert C. Martin",
-    pages: 464,
-    readStatus: "Will Read",
-    id: "f3b2c3ad-2c4b-4a77-9d23-9c8e6d8e1a44",
-  },
-];
+class Book {
+  constructor(title, author, pages, read, id = crypto.randomUUID()) {
+    this.id = id;
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
 
-// Generate the default array of books
-myLibrary.forEach((book) => {
-  createCards(book);
+  toggleRead() {
+    this.read = !this.read;
+  }
+}
+
+const library = loadLibrary();
+
+displayBook();
+
+function saveLibrary() {
+  localStorage.setItem("library", JSON.stringify(library));
+}
+
+function loadLibrary() {
+  const saved = localStorage.getItem("library");
+  if (!saved) return [];
+
+  const plainBooks = JSON.parse(saved);
+  return plainBooks.map(
+    (b) => new Book(b.title, b.author, b.pages, b.read, b.id),
+  );
+  localStorage.setItem("library", JSON.stringify(library));
+}
+
+function addBook(title, author, pages, read) {
+  const book = new Book(title, author, pages, read);
+  console.log(book);
+  library.push(book);
+  saveLibrary();
+  return library;
+}
+
+function displayBook() {
+  booksContainer.innerHTML = "";
+  library.forEach((book) => {
+    //elements for the HTML
+    const div = document.createElement("div");
+    const bookTitle = document.createElement("h2");
+    const bookAuthor = document.createElement("p");
+    const bookPages = document.createElement("p");
+    const bookRead = document.createElement("p");
+    const bookId = document.createElement("p");
+    const bookButtonContainer = document.createElement("div");
+    const isReadBtn = document.createElement("button");
+    const deleteBookBtn = document.createElement("button");
+    const deleteI = document.createElement("i");
+    const readI = document.createElement("i");
+
+    //contejnts of the book from the form
+    bookTitle.textContent = book.title;
+    bookAuthor.textContent = book.author;
+    bookPages.textContent = `Pages: ${book.pages}`;
+    if (book.read === true) {
+      bookRead.textContent = "read";
+    } else {
+      bookRead.textContent = "unread";
+    }
+
+    bookId.textContent = `Book ID: ${book.id}`;
+    div.dataset.id = book.id;
+
+    // elements styling classes / ids
+    bookTitle.classList.add("book-title");
+    bookAuthor.classList.add("book-author");
+
+    bookPages.classList.add("book-pages");
+    bookRead.classList.add("book-status");
+
+    bookId.classList.add("book-id");
+    div.classList.add("book");
+
+    readI.classList.add("fa-brands", "fa-readme");
+    deleteI.classList.add("fa-solid", "fa-trash-can");
+
+    isReadBtn.classList.add("read-book-btn", "btn");
+    deleteBookBtn.classList.add("delete-book-btn", "btn");
+
+    bookButtonContainer.classList.add("buttons-container");
+
+    //appending elements to html page
+
+    deleteBookBtn.append(deleteI);
+    isReadBtn.append(readI);
+
+    bookButtonContainer.append(isReadBtn, deleteBookBtn);
+
+    div.append(
+      bookTitle,
+      bookAuthor,
+      bookPages,
+      bookRead,
+      bookId,
+      bookButtonContainer,
+    );
+
+    booksContainer.append(div);
+  });
+}
+
+openModalBtn.addEventListener("click", () => {
+  modalForm.classList.remove("hidden");
 });
 
-// prototype Book constructor
-function Book(title, author, pages, readStatus, id = crypto.randomUUID()) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.readStatus = readStatus;
-  this.id = id;
-}
+closeModalBtn.addEventListener("click", () => {
+  modalForm.classList.add("hidden");
+});
 
-// Get form data and add new book to library
-function addBookToLibrary() {
-  const usersTitle = title.value;
-  const authorsValue = author.value;
-  const pagesValue = pages.value;
-  const bookID = crypto.randomUUID();
-  const readStatus = document.querySelector(
-    'input[name="book-status"]:checked',
-  )?.value;
-
-  const book = new Book(
-    usersTitle,
-    authorsValue,
-    pagesValue,
-    readStatus,
-    bookID,
-  );
-
-  myLibrary.push(book);
-  return book;
-}
-
-// Create and render a book card to the DOM for each form filled
-function createCards(book) {
-  const bookDiv = document.createElement("div");
-  bookDiv.classList.add("book-card", "card");
-
-  const bookTitle = document.createElement("h1");
-  bookTitle.textContent = book.title;
-
-  const bookAuthor = document.createElement("h2");
-  bookAuthor.textContent = `by ${book.author}`;
-
-  const bookPages = document.createElement("p");
-  bookPages.textContent = `Pages: ${book.pages}`;
-
-  const bookStatus = document.createElement("p");
-  bookStatus.textContent = `Status: ${book.readStatus}`;
-
-  const bookID = document.createElement("p");
-  bookID.textContent = `Book ID:${book.id} `;
-  bookID.classList.add("book-id");
-
-  const actionsDiv = document.createElement("div");
-  actionsDiv.classList.add("card-actions");
-
-  // Cycles through read statuses
-  const readBtn = document.createElement("button");
-  readBtn.classList.add("read-btn", "btn");
-  readBtn.innerHTML = `<span class="fa-regular fa-bookmark"></span>`;
-  readBtn.addEventListener("click", () => {
-    if (book.readStatus === "Will Read") {
-      book.readStatus = "Currently Reading";
-    } else if (book.readStatus === "Currently Reading") {
-      book.readStatus = "Finished";
-    } else {
-      book.readStatus = "Will Read";
-    }
-    bookStatus.textContent = `Status: ${book.readStatus}`;
-  });
-
-  // Delete button - removes from DOM and array
-  const deleteBtn = document.createElement("button");
-  deleteBtn.classList.add("delete-btn", "btn");
-  deleteBtn.innerHTML = `<span class="fa-regular fa-trash-can"></span>`;
-  deleteBtn.addEventListener("click", () => {
-    bookDiv.classList.add("fade-out");
-    setTimeout(() => bookDiv.remove(), 300);
-    const index = myLibrary.findIndex((b) => b.id === book.id);
-    if (index !== -1) myLibrary.splice(index, 1);
-  });
-
-  actionsDiv.appendChild(readBtn);
-  actionsDiv.appendChild(deleteBtn);
-
-  bookDiv.appendChild(bookTitle);
-  bookDiv.appendChild(bookAuthor);
-  bookDiv.appendChild(bookPages);
-  bookDiv.appendChild(bookStatus);
-  bookDiv.appendChild(bookID);
-  bookDiv.appendChild(actionsDiv);
-
-  libraryContainer.appendChild(bookDiv);
-}
-
-// Handle form submission
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  const newBook = addBookToLibrary();
-  createCards(newBook);
+
+  const title = document.querySelector("#book-title").value;
+  const author = document.querySelector("#author").value;
+  const pages = document.querySelector("#pages").value;
+  const read = document.querySelector("#status").checked;
+
+  addBook(title, author, pages, read);
+  displayBook();
   form.reset();
   modalForm.classList.add("hidden");
 });
 
-// Toggle modal visibility
-addBookBtn.addEventListener("click", () => {
-  modalForm.classList.toggle("hidden");
-});
+booksContainer.addEventListener("click", (e) => {
+  const card = e.target.closest(".book");
+  if (!card) return;
 
-// Close modal
-closeFormBtn.addEventListener("click", () => {
-  modalForm.classList.add("hidden");
-});
+  const id = card.dataset.id;
 
-function findBookByTitle() {
-  const userSearch = prompt("Name of book please");
-  const foundBook = myLibrary.find((book) => book.title === userSearch);
-
-  if (foundBook) {
-    console.log(foundBook);
-    return foundBook;
-  } else {
-    console.log(`Unable to find what you searched: ${userSearch}`);
-    return;
+  if (e.target.closest(".read-book-btn")) {
+    const book = library.find((b) => b.id === card.dataset.id);
+    book.toggleRead();
+    displayBook();
+  } else if (e.target.closest(".delete-book-btn")) {
+    deleteBook(id);
   }
+
+  saveLibrary();
+  displayBook();
+});
+
+function deleteBook(id) {
+  const foundBookIndex = library.findIndex((b) => b.id === id);
+  if (foundBookIndex === -1) return;
+
+  library.splice(foundBookIndex, 1);
 }
